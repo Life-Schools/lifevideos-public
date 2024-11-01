@@ -1,0 +1,72 @@
+services:
+  app:
+    container_name: lifevideos
+    image: us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube:latest
+    user: "0:0"
+    ports:
+      - "3000:3000"
+    environment:
+      # DATABASE
+      - DATABASE_URL:${DATABASE_URL}
+      # AUTHJS
+      - NEXTAUTH_URL:${NEXTAUTH_URL}
+      - AUTH_SECRET:${AUTH_SECRET}
+      # AUTHJS - PROVIDERS - GOOGLE
+      - AUTH_GOOGLE_ID:${AUTH_GOOGLE_ID}
+      - AUTH_GOOGLE_SECRET:${AUTH_GOOGLE_SECRET}
+      #STRIPE
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY:${STRIPE_SECRET_KEY}
+      #LOCAL
+      - LOCAL_PATH:${LOCAL_PATH}
+      #PLATFORM
+      - CLOUD_PLATFORM:${CLOUD_PLATFORM}
+    volumes:
+      - ./entrypoint.sh:/app/entrypoint.sh
+      - ./uploads:${LOCAL_PATH}
+    entrypoint: ["/app/entrypoint.sh"]
+    command: ["node", "server.js"]
+    depends_on:
+      - db
+    networks:
+      - app_network
+    env_file:
+      - .env
+
+  db:
+    container_name: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lifevideos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    ports:
+      - "5432:5432"
+  
+  postgres-client:
+    image: postgres:15
+    depends_on:
+      - db
+    networks:
+      - app_network
+    volumes:
+      - ./database/create_materialized_view.sql:/docker-entrypoint-initdb.d/create_materialized_view.sql
+      - ./init_materialized_view.sh:/init_materialized_view.sh
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lifevideos
+    entrypoint: ["/init_materialized_view.sh"]
+    restart: "no"
+
+volumes:
+  postgres_data:
+  uploads_data: # Volume for uploads storage
+
+networks:
+  app_network:
+    driver: bridge
