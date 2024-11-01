@@ -93,22 +93,27 @@ This guide will walk you through setting up Git, Docker Desktop, cloning the Lif
      AUTH_SECRET=your_generated_auth_secret
      ```
 
-   - **AUTH_GOOGLE_ID** and **AUTH_GOOGLE_SECRET**: Since this setup is for demo purposes, you have two options:
-      - **Option 1**: Use demo values that you’ve set up, which will allow users to try out the app quickly.
-      - **Option 2**: Set up a Google OAuth client to generate these values:
+   - **AUTH_GOOGLE_ID** and **AUTH_GOOGLE_SECRET**:
+      - Set up a Google OAuth client to generate these values:
         - Go to [Google Cloud Console](https://console.cloud.google.com/).
         - Create a new project or select an existing one.
+          - <img width="1916" alt="image" src="https://github.com/user-attachments/assets/b5d48b40-8565-485d-8c7b-d718d057f1cd">
         - Enable the **Google+ API** and **Google Sign-In** for the project.
         - Go to **APIs & Services** > **Credentials** > **Create Credentials** > **OAuth Client ID**.
         - Choose **Web Application** as the Application type.
         - Set **Authorized Redirect URI** to `http://localhost:3000/api/auth/callback/google`.
         - Copy the **Client ID** and **Client Secret** values and paste them in the `.env` file as shown below:
+          - <img width="1903" alt="image" src="https://github.com/user-attachments/assets/44818646-51ba-4828-bfe8-8869621c8d61">
+
 
           ```plaintext
           AUTH_GOOGLE_ID=your_google_client_id
           AUTH_GOOGLE_SECRET=your_google_client_secret
           ```
       - Go to [Google Drive API](https://console.cloud.google.com/apis/library/drive.googleapis.com?project=lifevideos-demo) and enable it, so you will have access to videos on your Google Drive
+    
+      
+
 
 ---
 
