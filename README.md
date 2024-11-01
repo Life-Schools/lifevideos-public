@@ -108,6 +108,7 @@ This guide will walk you through setting up Git, Docker Desktop, cloning the Lif
           AUTH_GOOGLE_ID=your_google_client_id
           AUTH_GOOGLE_SECRET=your_google_client_secret
           ```
+      - Go to [Google Drive API](https://console.cloud.google.com/apis/library/drive.googleapis.com?project=lifevideos-demo) and enable it, so you will have access to videos on your Google Drive
 
 ---
 
