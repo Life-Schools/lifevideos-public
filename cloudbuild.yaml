@@ -1,6 +1,7 @@
+logsBucket: gs://lifevideos-app-logs-bucket
+
 options:
   logging: GCS_ONLY
-  logsBucket: gs://lifevideos-app-logs-bucket
 
 
 steps:
