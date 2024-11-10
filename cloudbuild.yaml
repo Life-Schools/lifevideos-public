@@ -1,3 +1,8 @@
+options:
+  logging: GCS_ONLY
+  logsBucket: gs://lifevideos-app-logs-bucket
+
+
 steps:
   # Step 1: Pull the Docker image from the public registry
   - name: 'gcr.io/cloud-builders/docker'
