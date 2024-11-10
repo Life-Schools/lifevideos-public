@@ -7,19 +7,19 @@ options:
 steps:
   # Step 1: Pull the Docker image from the public registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['pull', 'us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube']
+    args: ['pull', 'us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube:latest']
 
   # Step 2: Deploy the image to Cloud Run and set environment variables
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
       [
-        'run', 'deploy', 'ethertube',
-        '--image', 'us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube',
+        'run', 'deploy', 'lifevideos-app',
+        '--image', 'us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube:latest',
         '--platform', 'managed',
         '--region', 'us-east1',
         '--allow-unauthenticated',
-        '--vpc-connector', 'ethertube-vpc-us-east1',
+        '--vpc-connector', 'lifevideos-vpc',
         '--set-env-vars',
         'DATABASE_URL=${_DATABASE_URL},NEXTAUTH_URL=${_NEXTAUTH_URL},AUTH_SECRET=${_AUTH_SECRET},AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID},AUTH_GOOGLE_SECRET=${_AUTH_GOOGLE_SECRET},GCP_PROJECT_ID=${_GCP_PROJECT_ID},GCP_BUCKET_NAME=${_GCP_BUCKET_NAME},GCP_CLIENT_EMAIL=${_GCP_CLIENT_EMAIL},NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY},STRIPE_SECRET_KEY=${_STRIPE_SECRET_KEY},STRIPE_CUSTOMER_ID=${_STRIPE_CUSTOMER_ID},CLOUD_PLATFORM=${_CLOUD_PLATFORM}'
       ]
