@@ -3,13 +3,19 @@ logsBucket: gs://lifevideos-app-logs-bucket
 options:
   logging: GCS_ONLY
 
-
 steps:
   # Step 1: Pull the Docker image from the public registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['pull', 'us-east1-docker.pkg.dev/ethertube/ethertube-docker-repository/ethertube:latest']
 
-  # Step 2: Deploy the image to Cloud Run and set environment variables
+  # Step 2: Run Prisma migrate to apply database schema
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'npx'
+    args: ['prisma', 'migrate', 'deploy']
+    env:
+      - 'DATABASE_URL=${_DATABASE_URL}' # Ensure DATABASE_URL is available for Prisma
+
+  # Step 3: Deploy the image to Cloud Run and set environment variables
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
