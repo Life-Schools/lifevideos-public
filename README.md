@@ -152,3 +152,6 @@ This guide will walk you through setting up Git, Docker Desktop, cloning the Lif
 ---
 
 That’s it! You now have the Life Videos app running with Docker. Enjoy exploring and contributing!
+
+
+## Adding here new information about subscribing to this repo to get deploys on GCP
