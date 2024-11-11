@@ -22,13 +22,3 @@ steps:
         '--set-env-vars',
         'DATABASE_URL=${_DATABASE_URL},NEXTAUTH_URL=${_NEXTAUTH_URL},AUTH_SECRET=${_AUTH_SECRET},AUTH_GOOGLE_ID=${_AUTH_GOOGLE_ID},AUTH_GOOGLE_SECRET=${_AUTH_GOOGLE_SECRET},GCP_PROJECT_ID=${_GCP_PROJECT_ID},GCP_BUCKET_NAME=${_GCP_BUCKET_NAME},GCP_CLIENT_EMAIL=${_GCP_CLIENT_EMAIL},NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${_NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY},STRIPE_SECRET_KEY=${_STRIPE_SECRET_KEY},STRIPE_CUSTOMER_ID=${_STRIPE_CUSTOMER_ID},CLOUD_PLATFORM=${_CLOUD_PLATFORM}'
       ]
-
-  # Step 3: Run Prisma migrate inside the container on Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-      [
-        'run', 'services', 'execute', 'lifevideos-app',
-        '--command', 'npx prisma migrate deploy',
-        '--region', 'us-east1'
-      ]
